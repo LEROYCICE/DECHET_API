@@ -10,10 +10,14 @@ use Illuminate\Support\Facades\Hash;
 class UsersController extends Controller
 {
 
-    public function index()
+    public function commandesParUtilisateur()
     {
-        //
+        $commandes = Auth::user()->commandes ;
+        return response()->json([
+            "commandes" => $commandes
+        ]) ;
     }
+
 
     public function create()
     {

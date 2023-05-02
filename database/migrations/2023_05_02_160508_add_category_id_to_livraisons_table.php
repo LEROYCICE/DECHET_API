@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCategoryIdToCommandesTable extends Migration
+class AddCategoryIdToLivraisonsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddCategoryIdToCommandesTable extends Migration
      */
     public function up()
     {
-        Schema::table('commandes', function (Blueprint $table) {
+        Schema::table('livraisons', function (Blueprint $table) {
             $table->foreign('category_id')->references('id')->on('categories')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -27,7 +30,7 @@ class AddCategoryIdToCommandesTable extends Migration
      */
     public function down()
     {
-        Schema::table('commandes', function (Blueprint $table) {
+        Schema::table('livraisons', function (Blueprint $table) {
             //
         });
     }

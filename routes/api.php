@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AgentController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,9 +29,30 @@ Route::post('/register' , [UsersController::class , 'register']) ;
 Route::post('/login' , [UsersController::class ,'login']) ;
 
 Route::middleware('auth:sanctum')->group(function(){
-    
+
     Route::get('/profile' , [UsersController::class , 'profile']) ;
 
     //Route pour créer une catégorie par l'admin
     Route::post('/creation-categorie' , [CategoryController::class , 'create']) ;
+
+    // Route pour passer une commande
+    Route::post('/passer-commande' , [CommandeController::class , 'create']) ;
+
+    // Route pour afficher les clients les agents et les admins
+    Route::get('/clients-agents-admins' , [AdminController::class , 'index']) ;
+
+    // Route pour afficher les produits d'un client
+    Route::get('/commandes-par-client' , [UsersController::class , 'commandesParUtilisateur']) ;
+
+    //Route pour sauvegarder les livraisons par un agent
+    Route::post('/agent-confirme-commande' , [AgentController::class , 'create']) ;
+
+    //Route pour afficher les livraisons par Agent
+    Route::get('/livraisons-par-agent' , [AgentController::class , 'livraisonParAgent']) ;
+
+    //Route pour nommer agents
+    Route::put('/nommer-agent/{id}' , [AdminController::class , 'nommerAgent']) ;
+
+    // Route pour nommer admin
+    Route::put('/nommer-admin/{id}' , [AdminController::class , 'nommerAdmin']) ;
 });
