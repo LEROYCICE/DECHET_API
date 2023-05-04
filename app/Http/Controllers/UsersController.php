@@ -12,10 +12,10 @@ class UsersController extends Controller
 
     public function commandesParUtilisateur()
     {
-        $commandes = Auth::user()->commandes ;
+        $commandes = Auth::user()->commandes;
         return response()->json([
             "commandes" => $commandes
-        ]) ;
+        ]);
     }
 
 
@@ -44,7 +44,7 @@ class UsersController extends Controller
         $save = $user->save();
         if ($save) {
             return response()->json([
-                "message" => "Vous etes inscrit avec success"
+                "message" => "Vous êtes inscrit avec success"
             ]);
         }
     }
@@ -68,7 +68,7 @@ class UsersController extends Controller
             $token = $request->user()->createToken('auth_token')->plainTextToken;
             return response()->json(
                 [
-                    "message" => "Vous etes conncté",
+                    "message" => "Vous êtes conncté",
                     'token' => $token,
                 ],
                 200
@@ -83,6 +83,25 @@ class UsersController extends Controller
     public function profile()
     {
         return response()->json(Auth::user());
+    }
+
+    public function logout()
+    {
+
+        Auth::logout();
+        return response()->json([
+            "success" => True,
+            "message" => "Vous êtes déconnecté avec succès. "
+        ]);
+    }
+
+    public function pointClient()
+    {
+
+        $points = Auth::user()->points;
+        return response()->json([
+            "points" => $points
+        ]);
     }
 
     public function update(Request $request, $id)

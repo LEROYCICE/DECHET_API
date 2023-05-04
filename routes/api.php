@@ -41,6 +41,9 @@ Route::middleware('auth:sanctum')->group(function(){
     // Route pour afficher les clients les agents et les admins
     Route::get('/clients-agents-admins' , [AdminController::class , 'index']) ;
 
+    // Route pour afficher tout les commandes
+    Route::get('/liste-des-commandes' , [CommandeController::class , 'index']) ;
+
     // Route pour afficher les produits d'un client
     Route::get('/commandes-par-client' , [UsersController::class , 'commandesParUtilisateur']) ;
 
@@ -55,4 +58,22 @@ Route::middleware('auth:sanctum')->group(function(){
 
     // Route pour nommer admin
     Route::put('/nommer-admin/{id}' , [AdminController::class , 'nommerAdmin']) ;
+
+    // Route pour supprimer un utilisateur
+    Route::delete('/supprrimer-utilisateur' , [AdminController::class , 'destroy']) ;
+
+    // Route des commandes par des clients visible à la partie Admin
+    Route::get('/listes-des-commandes-des-clients' , [AdminController::class , 'listeDesCommandesDesClients']) ;
+
+    // Route pour afficher chaque utilsateurs avec ses points
+    Route::get('/liste-des-clients-avec-points' , [AdminController::class , 'pointsDeChaqueUtilisateur']) ;
+
+    // Route pour affecter les points à un utilisateur
+    Route::post('/client/{id}/points' , [AdminController::class , 'affecterPoint']) ;
+
+    // Route pour afficher à chaque utilisateur ses points
+    Route::get('/client-points' , [UsersController::class ,'pointClient']) ;
+
+    // Route pour la déconnexion
+    Route::get('/deconnexion' , [UsersController::class , 'logout']) ;
 });

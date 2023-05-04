@@ -10,7 +10,8 @@ class CommandeController extends Controller
 
     public function index()
     {
-        //
+        $commandes = Commande::all();
+        return response()->json($commandes);
     }
 
 
@@ -36,7 +37,7 @@ class CommandeController extends Controller
         }
         return response()->json([
             "message" => "Veuillez remplir tous les champs"
-        ]) ;
+        ]);
     }
 
     public function show($id)
