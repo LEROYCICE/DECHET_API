@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Commande;
 use App\Models\Livraison;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,21 +10,24 @@ use Illuminate\Support\Facades\Auth;
 class AgentController extends Controller
 {
 
-    public function livraisonParAgent(){
+    public function livraisonParAgent()
+    {
 
-        $livraisons = Auth::user()->livraisons ;
+        $livraisons = Auth::user()->livraisons;
         return response()->json([
             "livraisons" => $livraisons
-        ]) ;
+        ]);
     }
 
     public function index()
     {
-        $livraisons = Livraison::all();
-        return response()->json($livraisons);
+        $livraisons = Livraison::join('users', 'livraisons.user_id', 'users.id')
+            ->select('livraisons.*', 'users.nom', 'users.phone')
+            ->get();
+        return response()->json(["livraisons" => $livraisons]);
     }
 
-    public function create(Request $request)
+    public function create(Request $request, $id)
     {
         $request->validate([
             'poids' => 'required|string',
@@ -32,8 +36,10 @@ class AgentController extends Controller
 
         if (Auth::user()->role_id == 3) {
 
+            $commande = Commande::findOrFail($id);
             $livraison = new Livraison();
             $livraison->poids = $request->poids;
+            $livraison->commande_id = $commande->id;
             $livraison->category_id = $request->category_id;
             $livraison->user_id = auth()->id();
 
@@ -50,9 +56,14 @@ class AgentController extends Controller
     }
 
 
-    public function show($id)
+    public function execute($id)
     {
-        //
+        $commande = Commande::findOrFail($id);
+        $commande->is_execute = True;
+        $commande->update();
+        return response()->json([
+            "message" =>  "La commande est exécuté"
+        ]);
     }
 
     public function edit($id)

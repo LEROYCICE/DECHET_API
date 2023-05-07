@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Commande;
+use App\Models\Livraison;
 use App\Models\Point;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -76,7 +77,7 @@ class AdminController extends Controller
 
     public function affecterPoint(Request $request, $id)
     {
-        $validateData = $request->validate([
+        $request->validate([
             'points' => 'required|integer|min:0'
         ]);
         if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2) {
@@ -85,8 +86,8 @@ class AdminController extends Controller
             $points = new Point;
             $points->user_id = $user->id;
             $points->admin_id = auth()->id() ;
-            $points->points += $validateData['points'];
-            $points->save();
+            $points->points += $request->points;
+            $points->update();
 
             return response()->json([
                 "message" => "Les points de l\'utilisateur ont été mis à jour avec succès."
@@ -114,4 +115,5 @@ class AdminController extends Controller
             ]);
         }
     }
+
 }

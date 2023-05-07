@@ -17,4 +17,9 @@ class Commande extends Model
     public function users(){
         return $this->belongsTo(User::class) ;
     }
+
+    public function livraison()
+    {
+       return $this->hasOne(Livraison::class) ;
+    }
 }

@@ -17,6 +17,7 @@ class CreateLivraisonsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id') ;
             $table->unsignedBigInteger('user_id') ;
+            $table->foreignId('commande_id')->constrained('commandes')->cascadeOnDelete() ;
             $table->string('poids') ;
             $table->timestamps();
         });
