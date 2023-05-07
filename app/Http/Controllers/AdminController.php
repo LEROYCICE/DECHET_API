@@ -75,25 +75,35 @@ class AdminController extends Controller
         return response()->json($commandes);
     }
 
-    public function affecterPoint(Request $request, $id, $pointId)
+    public function affecterPoint(Request $request, $id)
     {
         $request->validate([
             'points' => 'required|integer|min:0'
         ]);
-        if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2) {
 
+        if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2) {
             $user = User::findOrFail($id);
-            $points = Point::findOrFail($pointId);
-            $points->user_id = $user->id;
-            $points->admin_id = auth()->id() ;
+
+            // Vérifie si l'utilisateur a déjà des points
+            $points = Point::where('user_id', $user->id)->first();
+
+            // Si l'utilisateur n'a pas encore de points, on crée un nouvel objet Point
+            if (!$points) {
+                $points = new Point;
+                $points->user_id = $user->id;
+                $points->admin_id = auth()->id();
+            }
+
+            // On met à jour le nombre de points de l'utilisateur
             $points->points += $request->points;
-            $points->update();
+            $points->save(); // Sauvegarde des changements
 
             return response()->json([
-                "message" => "Les points de l\'utilisateur ont été mis à jour avec succès."
+                "message" => "Les points de l'utilisateur ont été mis à jour avec succès."
             ]);
         }
     }
+
 
     public function pointsDeChaqueUtilisateur()
     {
@@ -101,7 +111,7 @@ class AdminController extends Controller
             ->select('users.nom', 'users.phone', 'points.points')
             ->get();
 
-        return response()->json($users) ;
+        return response()->json($users);
     }
 
     public function destroy($id)
@@ -115,5 +125,4 @@ class AdminController extends Controller
             ]);
         }
     }
-
 }

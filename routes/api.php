@@ -81,7 +81,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/clients/points' , [AdminController::class , 'pointsDeChaqueUtilisateur']) ;
 
     // Route pour affecter les points à un utilisateur
-    Route::put('/client/{id}/points/{pointId}' , [AdminController::class , 'affecterPoint']) ;
+    Route::put('/client/{id}/points' , [AdminController::class , 'affecterPoint']) ;
 
     // Route pour afficher à chaque utilisateur ses points
     Route::get('/client/portefeuille' , [UsersController::class ,'pointClient']) ;
