@@ -75,7 +75,7 @@ class AdminController extends Controller
         return response()->json($commandes);
     }
 
-    public function affecterPoint(Request $request, $id)
+    public function affecterPoint(Request $request, $id, $pointId)
     {
         $request->validate([
             'points' => 'required|integer|min:0'
@@ -83,7 +83,7 @@ class AdminController extends Controller
         if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2) {
 
             $user = User::findOrFail($id);
-            $points = new Point;
+            $points = Point::findOrFail($pointId);
             $points->user_id = $user->id;
             $points->admin_id = auth()->id() ;
             $points->points += $request->points;
