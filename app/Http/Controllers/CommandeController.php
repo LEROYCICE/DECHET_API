@@ -79,8 +79,8 @@ class CommandeController extends Controller
 
     public function destroy($id)
     {
-        $commande = Commande::finOrFail($id) ;
+        $commande = Commande::findOrFail($id) ;
         $commande->delete() ;
-        return response()->json(["message" => "Commande supprimer"]) ;
+        return response()->json(["message" => "Commande supprimée"]) ;
     }
 }
