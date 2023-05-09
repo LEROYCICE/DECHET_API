@@ -78,6 +78,19 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route pour supprimer une commande
     Route::delete('/commande/delete/{id}' , [CommandeController::class , 'destroy']) ;
 
+
+        // Route pour voir les détails d'une livraison
+        Route::get('/livraison/show/{id}' , [AgentController::class , 'show']) ;
+
+        // Route pour editer une livraion
+        Route::get('/livraison/edit/{id}' , [AgentController::class , 'edit']) ;
+
+        // Route pour mettre à jour une livraison
+        Route::put('/livraison/update/{id}' , [AgentController::class , 'update']) ;
+
+        // Route pour supprimer une livraison
+        Route::delete('/livraison/delete/{id}' , [AgentController::class , 'destroy']) ;
+
     //Route pour afficher les livraisons par Agent
     Route::get('/livraisons/agent', [AgentController::class, 'livraisonParAgent']);
 

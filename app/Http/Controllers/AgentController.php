@@ -66,18 +66,40 @@ class AgentController extends Controller
         ]);
     }
 
+
+    public function show($id){
+        $livraison = Livraison::findOrFail($id) ;
+        return response()->json(["livraison" => $livraison]) ;
+    }
+
     public function edit($id)
     {
-        //
+        $livraison = Livraison::findOrFail($id) ;
+        return response()->json(["livraison" => $livraison]) ;
+
     }
 
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'poids' => 'required|string',
+            'category_id' => 'required|integer'
+        ]);
+
+        $livraison = Livraison::findOrFail($id);
+        $livraison->poids = $request->poids;
+        $livraison->category_id = $request->category_id;
+        $livraison->user_id = auth()->id();
+        $livraison->update() ;
+        return response()->json(["message" => "livraison bien modifiée"]) ;
+
     }
+
 
     public function destroy($id)
     {
-        //
+        $livraison = Livraison::findOrFail($id) ;
+        $livraison->delete() ;
+        return response()->json(["message" => "livraison supprimée"]) ;
     }
 }

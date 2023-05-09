@@ -72,7 +72,7 @@ class AdminController extends Controller
             ->select('commandes.*', 'users.nom', 'users.phone', 'commandes.id')
             ->get();
 
-        return response()->json($commandes);
+        return response()->json(["commandes" => $commandes]);
     }
 
     public function affecterPoint(Request $request, $id)
