@@ -70,7 +70,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/commande/show/{id}' , [CommandeController::class , 'show']) ;
 
     // Route pour editer une commande
-    Route::get('/commande/edit/{id}' , [Commande::class , 'edit']) ;
+    Route::get('/commande/edit/{id}' , [CommandeController::class , 'edit']) ;
 
     // Route pour mettre à jour une commande
     Route::put('/commande/update/{id}' , [CommandeController::class , 'update']) ;
