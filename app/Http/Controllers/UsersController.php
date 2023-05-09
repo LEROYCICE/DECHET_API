@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class UsersController extends Controller
 {
@@ -85,15 +87,13 @@ class UsersController extends Controller
         return response()->json(Auth::user());
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-
-        Auth::logout();
-        return response()->json([
-            "success" => True,
-            "message" => "Vous êtes déconnecté avec succès. "
-        ]);
+        $token = $request->user()->currentAccessToken();
+        $request->user()->tokens()->where('id', $token->id)->delete();
+        return response()->json(["status" => True, "message" => "déconnecté avec succès"]);
     }
+
 
     public function pointClient()
     {
