@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash ;
 
 class User extends Authenticatable
 {
@@ -18,9 +21,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'nom',
+        'name',
         'email',
-        'phone' ,
+        'phone',
         'password',
         'password_confirmation'
     ];
@@ -35,6 +38,19 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+
+    // protected static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::saving(function ($user) {
+    //         if (!empty($user->password)) {
+    //             $user->password = Hash::make($user->password);
+    //             $user->password_confirmation = Hash::make($user->password_confirmation);
+    //         }
+    //     });
+    // }
+
     /**
      * The attributes that should be cast.
      *
@@ -44,17 +60,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function commandes(){
+    public function commandes()
+    {
 
-        return $this->hasMany(Commande::class) ;
+        return $this->hasMany(Commande::class);
     }
 
     public function livraisons()
     {
-        return $this->hasMany(Livraison::class) ;
+        return $this->hasMany(Livraison::class);
     }
 
-    public function points(){
-        return $this->hasOne(Point::class) ;
+    public function points()
+    {
+        return $this->hasOne(Point::class);
+    }
+
+    public function retraits()
+    {
+        return $this->hasMany(Retrait::class);
     }
 }

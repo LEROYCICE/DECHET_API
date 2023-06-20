@@ -15,11 +15,9 @@ class AddCategoryIdToLivraisonsTable extends Migration
     {
         Schema::table('livraisons', function (Blueprint $table) {
             $table->foreign('category_id')->references('id')->on('categories')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->onDelete('cascade');
         });
     }
 

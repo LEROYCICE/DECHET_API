@@ -9,6 +9,8 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['nom'] ;
+
     public function commandes(){
 
         return $this->hasMany(Commande::class) ;

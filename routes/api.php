@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommandeController;
+use App\Http\Controllers\RetraitController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UsersController;
 use App\Models\Commande;
@@ -61,7 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/commande/confirme/{id}', [AgentController::class, 'create']);
 
     // Route pour passer la commande en attente à commande exécutée
-    Route::put('/commande/{id}/execute', [AgentController::class, 'execute']);
+    Route::put('/commande/{id}/execute', [AgentController::class, 'execute'])->name('commande.execute');
 
     // Route pour afficher les commandes exécutés
     Route::get('/commandes/execute', [CommandeController::class, 'execute']);
@@ -117,4 +118,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Route pour la déconnexion
     Route::post('/user/logout', [UsersController::class, 'logout']);
+
+    // Route pour effectuer un retrait
+    Route::post('/client/retrait' , [RetraitController::class , 'retrait']) ;
 });

@@ -70,7 +70,7 @@ class AdminController extends Controller
     {
         $commandes = Commande::join('users', 'commandes.user_id', '=', 'users.id')
             ->select('commandes.*', 'users.nom', 'users.phone', 'commandes.id')
-            ->get();
+            ->latest()->get();
 
         return response()->json(["commandes" => $commandes]);
     }
@@ -108,8 +108,8 @@ class AdminController extends Controller
     public function pointsDeChaqueUtilisateur()
     {
         $users = User::leftJoin('points', 'users.id', '=', 'points.user_id')
-            ->select('users.nom', 'users.phone', 'points.points')
-            ->get();
+            ->select('points.*' , 'users.nom', 'users.phone', 'points.points')
+            ->latest()->get();
 
         return response()->json($users);
     }

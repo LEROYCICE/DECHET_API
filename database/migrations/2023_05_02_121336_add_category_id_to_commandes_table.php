@@ -15,8 +15,7 @@ class AddCategoryIdToCommandesTable extends Migration
     {
         Schema::table('commandes', function (Blueprint $table) {
             $table->foreign('category_id')->references('id')->on('categories')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                ->onDelete('cascade');
         });
     }
 

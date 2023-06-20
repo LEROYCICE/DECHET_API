@@ -29,7 +29,7 @@ class UsersController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'nom' => 'required',
+            'name' => 'required',
             'email' => 'required|email|unique:users',
             'phone' => 'required|string',
             'password' => 'required|confirmed',
@@ -37,7 +37,7 @@ class UsersController extends Controller
         ]);
 
         $user = new User();
-        $user->nom = $request->nom;
+        $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->password = Hash::make($request->password);
@@ -70,7 +70,7 @@ class UsersController extends Controller
             $token = $request->user()->createToken('auth_token')->plainTextToken;
             return response()->json(
                 [
-                    "message" => "Vous êtes conncté",
+                    "message" => "Vous êtes connecté",
                     'token' => $token,
                 ],
                 200
